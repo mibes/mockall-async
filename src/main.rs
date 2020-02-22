@@ -43,13 +43,18 @@ impl Printer {
             man
         }
     }
+
+    async fn print(&self) -> String {
+        let name = self.man.get_name().await;
+        format!("Hello, {}!", name)
+    }
 }
 
 #[tokio::main]
 async fn main() {
     let p = Printer::default();
-    let name = p.man.get_name().await;
-    println!("Hello, {}!", name);
+    let output = p.print().await;
+    println!("{}", output);
 }
 
 #[cfg(test)]
@@ -75,7 +80,7 @@ mod tests {
     #[tokio::test]
     async fn test_person() {
         let p = Printer::default();
-        assert_eq!("Marcel".to_string(), p.man.get_name().await);
+        assert_eq!("Hello, Marcel!".to_string(), p.print().await);
     }
 
     #[tokio::test]
@@ -84,6 +89,6 @@ mod tests {
         mock.expect_get_name().times(1).returning(|| "Horaci".to_string());
 
         let p = Printer::new(Box::from(mock));
-        assert_eq!("Horaci".to_string(), p.man.get_name().await);
+        assert_eq!("Hello, Horaci!".to_string(), p.print().await);
     }
 }
