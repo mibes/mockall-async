@@ -38,9 +38,9 @@ impl Default for Printer {
 }
 
 impl Printer {
-    fn new(man: Box<dyn Person>) -> Self {
+    fn new(person: Box<dyn Person>) -> Self {
         Printer {
-            person: man
+            person
         }
     }
 
