@@ -24,7 +24,7 @@ impl Default for Man {
 }
 
 struct Printer {
-    man: Box<dyn Person>,
+    person: Box<dyn Person>,
 }
 
 impl Default for Printer {
@@ -32,7 +32,7 @@ impl Default for Printer {
         let man = Man::default();
 
         Printer {
-            man: Box::from(man)
+            person: Box::from(man)
         }
     }
 }
@@ -40,12 +40,12 @@ impl Default for Printer {
 impl Printer {
     fn new(man: Box<dyn Person>) -> Self {
         Printer {
-            man
+            person: man
         }
     }
 
     async fn print(&self) -> String {
-        let name = self.man.get_name().await;
+        let name = self.person.get_name().await;
         format!("Hello, {}!", name)
     }
 }
